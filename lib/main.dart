@@ -1,36 +1,71 @@
+import 'dart:math';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'firebase_options.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await GetStorage.init();
-  runApp(const MyApp());
+
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+        textTheme: Theme.of(context).textTheme.apply(
+              bodyColor: Colors.white,
+              displayColor: Colors.white38,
+            ),
+      ),
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: const Main(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class Main extends StatefulWidget {
+  const Main({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Main> createState() => _MainState();
 }
 
 final GetStorage box = GetStorage();
 
-final PageController controller = PageController();
+class _MainState extends State<Main> {
+  final PageController pageController = PageController(initialPage: 1);
+  final TextEditingController nameController = TextEditingController();
 
-class _MyHomePageState extends State<MyHomePage> {
+  List<dynamic> boozes = box.read("boozes") ?? [];
+  List<dynamic> alcohols = box.read("alcohols") ?? [];
+
+  String userId = box.read("userId") ?? Random().nextInt(1000000).toString();
+
+  int rowCount = 4;
+
+  Map<String, double> alcList = {};
+
+  CollectionReference leadersColl =
+      FirebaseFirestore.instance.collection('leaders');
+
+  @override
+  void initState() {
+    getAlcohols();
+
+    super.initState();
+  }
+
   void addBooze(String imageUrl, double scale, double alc) {
     Clipboard.setData(const ClipboardData());
     HapticFeedback.heavyImpact();
@@ -46,18 +81,25 @@ class _MyHomePageState extends State<MyHomePage> {
     box.write("alcohols", alcohols);
   }
 
-  List<dynamic> boozes = box.read("boozes") ?? [];
-  List<dynamic> alcohols = box.read("alcohols") ?? [];
+  Future<void> setLeaders() async {
+    int totalAlc = getTotalAlc().toInt();
 
-  int rowCount = 4;
-  num otoScale = 2;
+    leadersColl.doc(userId).set({
+      'id': userId,
+      'name': box.read("name"),
+      'alc': totalAlc,
+    });
 
-  Map<String, double> alcList = {};
+    setState(() {});
+  }
 
-  @override
-  void initState() {
-    getAlcohols();
-    super.initState();
+  void signUp() {
+    box.write("userLoggedIn", true);
+    box.write("name", nameController.text);
+    box.write("userId", userId);
+    setLeaders();
+
+    setState(() {});
   }
 
   Widget boozeButton(String imageUrl, double scale, String text, double alc) {
@@ -80,11 +122,16 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Map getAlcohols() {
+  double getTotalAlc() {
     double totalAlc = 0;
     for (int i = 0; i < alcohols.length; i++) {
       totalAlc += alcohols[i];
     }
+    return totalAlc;
+  }
+
+  Map getAlcohols() {
+    double totalAlc = getTotalAlc();
     alcList["total"] = totalAlc;
     alcList["beers"] = totalAlc / 17.75;
     alcList["hard_beers"] = totalAlc / 37.5;
@@ -150,9 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      //backgroundColor: Color.fromARGB(255, 4, 4, 4),
       backgroundColor: Colors.black,
       bottomNavigationBar: BottomAppBar(
         elevation: 10,
@@ -165,37 +210,38 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               IconButton(
                 onPressed: () {
-                  setState(() {
-                    boozes.clear();
-                    alcohols.clear();
-                    box.remove("boozes");
-                    box.remove("alcohols");
-                  });
+                  if (box.read("userLoggedIn") ?? false) setLeaders();
+
+                  pageController.animateToPage(0,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.ease);
                 },
-                icon: const Icon(Icons.remove_circle),
+                icon: const Icon(Icons.leaderboard),
                 color: Colors.white,
               ),
               IconButton(
                 onPressed: () {
-                  controller.animateToPage(0,
+                  pageController.animateToPage(1,
                       duration: const Duration(milliseconds: 250),
                       curve: Curves.ease);
                   showMenu();
+                  setState(() {});
                 },
                 icon: const Icon(Icons.add),
                 color: Colors.white,
               ),
               IconButton(
                 onPressed: () {
-                  controller.animateToPage(1,
+                  getAlcohols();
+                  setState(() {});
+                  pageController.animateToPage(2,
                       duration: const Duration(milliseconds: 250),
                       curve: Curves.ease);
-                  setState(() {
-                    getAlcohols();
-                  });
                 },
-                icon: const Icon(Icons.notes),
-                color: Colors.white,
+                icon: const Icon(
+                  Icons.notes,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),
@@ -204,8 +250,103 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Stack(
         children: <Widget>[
           PageView(
-            controller: controller,
+            controller: pageController,
             children: <Widget>[
+              (box.read("userLoggedIn") ?? false
+                  ? FutureBuilder<QuerySnapshot>(
+                      future: leadersColl
+                          .limit(20)
+                          .orderBy('alc', descending: true)
+                          .get(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return const Text("Something went wrong");
+                        }
+
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          final List<DocumentSnapshot> documents =
+                              snapshot.data!.docs;
+                          return ListView.builder(
+                            itemCount: documents.length,
+                            itemBuilder: (context, i) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(70, 7, 70, 7),
+                                child: ListTile(
+                                  visualDensity:
+                                      const VisualDensity(vertical: -3),
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(width: 2),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  dense: true,
+                                  tileColor: Colors.white10,
+                                  leading: Text(
+                                    (i + 1).toString(),
+                                    style:
+                                        const TextStyle(color: Colors.white38),
+                                  ),
+                                  title: Text(documents[i]["name"].toString()),
+                                  subtitle: Text('${documents[i]["alc"]} ml'),
+                                ),
+                              );
+                            },
+                          );
+                        }
+
+                        return const SizedBox(
+                          width: 50,
+                          height: 50,
+                          //TODO! huge indicator
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    )
+                  : SafeArea(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 50),
+                          const Text(
+                            "To reach and contribute to leaderboard please sign up",
+                            style:
+                                TextStyle(color: Colors.white54, fontSize: 12),
+                          ),
+                          const SizedBox(height: 20),
+                          SizedBox(
+                            width: 300,
+                            child: TextField(
+                              decoration: const InputDecoration(
+                                labelStyle: TextStyle(color: Colors.white60),
+                                hintText: "username",
+                                hintStyle: TextStyle(color: Colors.white24),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white24),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white38),
+                                ),
+                              ),
+                              controller: nameController,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          const SizedBox(height: 30),
+                          ElevatedButton(
+                            onPressed: () =>
+                                (nameController.text != "") ? signUp() : null,
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                                backgroundColor: Colors.white),
+                            child: const Text(
+                              "Sign Up",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          )
+                        ],
+                      ),
+                    )),
               Stack(
                 children: <Widget>[
                   SizedBox(
@@ -255,110 +396,125 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.grey,
                     ),
                   ),
+                  Positioned(
+                    top: 130,
+                    right: 0,
+                    child: IconButton(
+                      onPressed: () {
+                        box.remove("userId");
+                        box.remove("userLoggedIn");
+                        box.remove("name");
+                      },
+                      icon: const Icon(Icons.delete),
+                      color: Colors.grey,
+                    ),
+                  ),
                 ],
               ),
               SafeArea(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Text(
-                      "total ≈ ${alcList['total']!.toStringAsFixed(2)} ml of alc",
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
+                    Column(
+                      children: [
+                        Text(
+                          "total ≈ ${alcList['total']!.toStringAsFixed(2)} ml of alc",
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        const Text(
+                          "Instead of drinking those you could've drink these",
+                          style: TextStyle(
+                            color: Colors.white54,
+                          ),
+                        ),
+                      ],
                     ),
-                    const Text(
-                      "Instead of drinking those you could've drink these",
-                      style: TextStyle(
-                        color: Colors.white54,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 80),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "${alcList['shots']!.toStringAsFixed(2)} shots of",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Image.asset(
-                                "assets/small_shot.png",
-                                scale: 3,
+                    Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "${alcList['shots']!.toStringAsFixed(2)} shots of",
+                              style: const TextStyle(
                                 color: Colors.white,
                               ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "${alcList['beers']!.toStringAsFixed(2)} botttles of",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Image.asset(
-                                "assets/bottle_beer.png",
-                                scale: 3,
+                            ),
+                            Image.asset(
+                              "assets/small_shot.png",
+                              scale: 3,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "${alcList['beers']!.toStringAsFixed(2)} bottles of",
+                              style: const TextStyle(
                                 color: Colors.white,
                               ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "${alcList['hard_beers']!.toStringAsFixed(2)} cans of",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Image.asset(
-                                "assets/hard_beer.png",
-                                scale: 3,
+                            ),
+                            Image.asset(
+                              "assets/bottle_beer.png",
+                              scale: 3,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "${alcList['hard_beers']!.toStringAsFixed(2)} cans of",
+                              style: const TextStyle(
                                 color: Colors.white,
                               ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "${alcList['vodkas']!.toStringAsFixed(2)} bottles of",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Image.asset(
-                                "assets/vodka.png",
-                                scale: 3,
+                            ),
+                            Image.asset(
+                              "assets/hard_beer.png",
+                              scale: 3,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "${alcList['vodkas']!.toStringAsFixed(2)} bottles of",
+                              style: const TextStyle(
                                 color: Colors.white,
                               ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "${alcList['whiskeys']!.toStringAsFixed(2)} bottles of",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Image.asset(
-                                "assets/whiskey.png",
-                                scale: 3,
+                            ),
+                            Image.asset(
+                              "assets/vodka.png",
+                              scale: 3,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "${alcList['whiskeys']!.toStringAsFixed(2)} bottles of",
+                              style: const TextStyle(
                                 color: Colors.white,
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                            Image.asset(
+                              "assets/whiskey.png",
+                              scale: 3,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),

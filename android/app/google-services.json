@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "30571819000",
+    "project_id": "chrashed-1b023",
+    "storage_bucket": "chrashed-1b023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:30571819000:android:69a9c63f94d0817e4f700d",
+        "android_client_info": {
+          "package_name": "com.example.chrashed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "30571819000-s9dqbpljd6rkmbhsoni91fs5fp28gh8t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcnFF74PTCCgKwsGkz_rcsw0I2hzGrpQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "30571819000-s9dqbpljd6rkmbhsoni91fs5fp28gh8t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
