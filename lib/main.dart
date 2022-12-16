@@ -285,6 +285,31 @@ class _MainState extends State<Main> {
                                   ),
                                   title: Text(documents[i]["name"].toString()),
                                   subtitle: Text('${documents[i]["alc"]} ml'),
+                                  trailing:
+                                      (box.read("userId") == documents[i]["id"])
+                                          ? IconButton(
+                                              onPressed: () {
+                                                box.remove("userId");
+                                                box.remove("userLoggedIn");
+                                                box.remove("name");
+                                                box.remove("boozes");
+                                                box.remove("alcohols");
+
+                                                boozes.clear();
+                                                alcohols.clear();
+
+                                                leadersColl
+                                                    .doc(documents[i]["id"])
+                                                    .delete();
+
+                                                setState(() {});
+                                              },
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.white24,
+                                              ),
+                                            )
+                                          : null,
                                 ),
                               );
                             },
