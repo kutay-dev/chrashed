@@ -442,19 +442,6 @@ class _MainState extends State<Main> {
                       color: Colors.grey,
                     ),
                   ),
-                  Positioned(
-                    top: 130,
-                    right: 0,
-                    child: IconButton(
-                      onPressed: () {
-                        box.remove("userId");
-                        box.remove("userLoggedIn");
-                        box.remove("name");
-                      },
-                      icon: const Icon(Icons.delete),
-                      color: Colors.grey,
-                    ),
-                  ),
                 ],
               ),
               SafeArea(
