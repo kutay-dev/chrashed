@@ -135,7 +135,8 @@ class _MainState extends State<Main> {
     alcList["total"] = totalAlc;
     alcList["beers"] = totalAlc / 17.75;
     alcList["hard_beers"] = totalAlc / 37.5;
-    alcList["shots"] = totalAlc / 16;
+    alcList["small_shots"] = totalAlc / 16;
+    alcList["big_shots"] = totalAlc / 20;
     alcList["wines"] = totalAlc / 18;
     alcList["vodkas"] = totalAlc / 129;
     alcList["whiskeys"] = totalAlc / 140;
@@ -409,7 +410,6 @@ class _MainState extends State<Main> {
               ),
               SafeArea(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Column(
                       children: [
@@ -428,89 +428,108 @@ class _MainState extends State<Main> {
                         ),
                       ],
                     ),
-                    Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "${alcList['shots']!.toStringAsFixed(2)} shots of",
-                              style: const TextStyle(
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "${alcList['small_shots']!.toStringAsFixed(2)} shots of",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Image.asset(
+                                "assets/small_shot.png",
+                                scale: 3,
                                 color: Colors.white,
                               ),
-                            ),
-                            Image.asset(
-                              "assets/small_shot.png",
-                              scale: 3,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "${alcList['beers']!.toStringAsFixed(2)} bottles of",
-                              style: const TextStyle(
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "${alcList['big_shots']!.toStringAsFixed(2)} shots of",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Image.asset(
+                                "assets/big_shot.png",
+                                scale: 3,
                                 color: Colors.white,
                               ),
-                            ),
-                            Image.asset(
-                              "assets/bottle_beer.png",
-                              scale: 3,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "${alcList['hard_beers']!.toStringAsFixed(2)} cans of",
-                              style: const TextStyle(
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "${alcList['beers']!.toStringAsFixed(2)} bottles of",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Image.asset(
+                                "assets/bottle_beer.png",
+                                scale: 3,
                                 color: Colors.white,
                               ),
-                            ),
-                            Image.asset(
-                              "assets/hard_beer.png",
-                              scale: 3,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "${alcList['wines']!.toStringAsFixed(2)} glasses of",
-                              style: const TextStyle(
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "${alcList['hard_beers']!.toStringAsFixed(2)} cans of",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Image.asset(
+                                "assets/hard_beer.png",
+                                scale: 3,
                                 color: Colors.white,
                               ),
-                            ),
-                            Image.asset(
-                              "assets/wine_glass.png",
-                              scale: 3,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "${alcList['whiskeys']!.toStringAsFixed(2)} bottles of",
-                              style: const TextStyle(
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "${alcList['wines']!.toStringAsFixed(2)} glasses of",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Image.asset(
+                                "assets/wine_glass.png",
+                                scale: 3,
                                 color: Colors.white,
                               ),
-                            ),
-                            Image.asset(
-                              "assets/whiskey.png",
-                              scale: 3,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                "${alcList['whiskeys']!.toStringAsFixed(2)} bottles of",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Image.asset(
+                                "assets/whiskey.png",
+                                scale: 3,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
