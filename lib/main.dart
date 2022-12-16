@@ -136,6 +136,7 @@ class _MainState extends State<Main> {
     alcList["beers"] = totalAlc / 17.75;
     alcList["hard_beers"] = totalAlc / 37.5;
     alcList["shots"] = totalAlc / 16;
+    alcList["wines"] = totalAlc / 18;
     alcList["vodkas"] = totalAlc / 129;
     alcList["whiskeys"] = totalAlc / 140;
     return alcList;
@@ -482,13 +483,13 @@ class _MainState extends State<Main> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              "${alcList['vodkas']!.toStringAsFixed(2)} bottles of",
+                              "${alcList['wines']!.toStringAsFixed(2)} glasses of",
                               style: const TextStyle(
                                 color: Colors.white,
                               ),
                             ),
                             Image.asset(
-                              "assets/vodka.png",
+                              "assets/wine_glass.png",
                               scale: 3,
                               color: Colors.white,
                             ),
