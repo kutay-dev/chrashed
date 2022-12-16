@@ -377,21 +377,42 @@ class _MainState extends State<Main> {
                   SizedBox(
                     height: 810,
                     width: double.infinity,
-                    child: GridView.count(
-                      reverse: true,
-                      crossAxisCount: rowCount,
-                      children: <Widget>[
-                        for (int i = 0; i < boozes.length; i++)
-                          Container(
-                            alignment: Alignment.bottomCenter,
-                            child: Image.asset(
-                              boozes[i]["imageUrl"],
-                              scale: (boozes[i]["scale"]),
-                              color: Colors.white,
-                            ),
+                    child: (boozes.isEmpty)
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "You havent consumed any booze yet",
+                                style: TextStyle(color: Colors.white38),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  showMenu();
+                                  setState(() {});
+                                },
+                                icon: const Icon(
+                                  Icons.add_circle,
+                                  color: Colors.white,
+                                  size: 40,
+                                ),
+                              )
+                            ],
+                          )
+                        : GridView.count(
+                            reverse: true,
+                            crossAxisCount: rowCount,
+                            children: <Widget>[
+                              for (int i = 0; i < boozes.length; i++)
+                                Container(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Image.asset(
+                                    boozes[i]["imageUrl"],
+                                    scale: (boozes[i]["scale"]),
+                                    color: Colors.white,
+                                  ),
+                                ),
+                            ],
                           ),
-                      ],
-                    ),
                   ),
                   Positioned(
                     top: 50,
