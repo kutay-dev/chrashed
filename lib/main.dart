@@ -274,7 +274,10 @@ class _MainState extends State<Main> {
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   dense: true,
-                                  tileColor: Colors.white10,
+                                  tileColor: (box.read("userId") ==
+                                          documents[i]["id"])
+                                      ? Colors.white10
+                                      : const Color.fromARGB(255, 12, 12, 12),
                                   leading: Text(
                                     (i + 1).toString(),
                                     style:
