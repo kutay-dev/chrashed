@@ -287,11 +287,14 @@ class _MainState extends State<Main> {
                           );
                         }
 
-                        return const SizedBox(
-                          width: 50,
-                          height: 50,
-                          //TODO! huge indicator
-                          child: CircularProgressIndicator(),
+                        return const Center(
+                          child: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          ),
                         );
                       },
                     )
