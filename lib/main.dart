@@ -102,9 +102,9 @@ class _MainState extends State<Main> {
     setState(() {});
   }
 
-  Widget boozeButton(String imageUrl, double scale, String text, double alc) {
+  Widget boozeButton(String imageUrl, String text, double alc) {
     return InkWell(
-      onTap: () => addBooze("assets/$imageUrl.png", scale, alc),
+      onTap: () => addBooze("assets/$imageUrl.png", 1, alc),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -164,16 +164,15 @@ class _MainState extends State<Main> {
                           child: GridView.count(
                             crossAxisCount: 3,
                             children: <Widget>[
-                              boozeButton(
-                                  "bottle_beer", 1, "Bottle beer", 17.75),
-                              boozeButton("can_beer", 1, "Can beer", 17.75),
-                              boozeButton("mug_beer", 1, "Mug beer", 26),
-                              boozeButton("hard_beer", 1, "Hard beer", 37.5),
-                              boozeButton("vodka", 1, "Vodka", 129),
-                              boozeButton("wine_glass", 1, "Wine", 18),
-                              boozeButton("small_shot", 1, "Small shot", 16),
-                              boozeButton("big_shot", 1, "Big shot", 20),
-                              boozeButton("whiskey", 1, "Whiskey", 140),
+                              boozeButton("bottle_beer", "Bottle beer", 17.75),
+                              boozeButton("can_beer", "Can beer", 17.75),
+                              boozeButton("mug_beer", "Mug beer", 26),
+                              boozeButton("hard_beer", "Hard beer", 37.5),
+                              boozeButton("vodka", "Vodka", 129),
+                              boozeButton("wine_glass", "Wine", 18),
+                              boozeButton("small_shot", "Small shot", 16),
+                              boozeButton("big_shot", "Big shot", 20),
+                              boozeButton("whiskey", "Whiskey", 140),
                             ],
                           ),
                         )
