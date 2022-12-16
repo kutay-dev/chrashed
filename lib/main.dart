@@ -152,9 +152,6 @@ class _MainState extends State<Main> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              Container(
-                height: 0,
-              ),
               Expanded(
                 child: SizedBox(
                   child: Container(
@@ -184,10 +181,6 @@ class _MainState extends State<Main> {
                   ),
                 ),
               ),
-              Container(
-                height: 0,
-                color: const Color(0xff4a6572),
-              )
             ],
           ),
         );
