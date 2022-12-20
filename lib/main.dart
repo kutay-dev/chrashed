@@ -48,11 +48,12 @@ class _MainState extends State<Main> {
   final TextEditingController nameController = TextEditingController();
 
   List<dynamic> boozes = box.read("boozes") ?? [];
-  List<dynamic> alcohols = box.read("alcohols") ?? [];
 
   String userId = box.read("userId") ?? Random().nextInt(1000000).toString();
 
   int rowCount = 4;
+
+  double totalAlc = box.read("totalAlc") ?? 0;
 
   Map<String, double> alcList = {};
 
@@ -75,14 +76,23 @@ class _MainState extends State<Main> {
         "imageUrl": imageUrl,
         "scale": scale,
       });
-      alcohols.add(alc);
     });
+    totalAlc += alc;
     box.write("boozes", boozes);
-    box.write("alcohols", alcohols);
+    box.write("totalAlc", totalAlc);
   }
 
   Future<void> setLeaders() async {
-    int totalAlc = getTotalAlc().toInt();
+    try {
+      final DocumentSnapshot snapshot = await leadersColl.doc(userId).get();
+
+      final Map data = snapshot.data() as Map;
+      final double dbAlc = data["alc"].toDouble();
+
+      if (dbAlc > totalAlc) {
+        totalAlc = dbAlc;
+      }
+    } catch (e) {}
 
     leadersColl.doc(userId).set({
       'id': userId,
@@ -122,16 +132,7 @@ class _MainState extends State<Main> {
     );
   }
 
-  double getTotalAlc() {
-    double totalAlc = 0;
-    for (int i = 0; i < alcohols.length; i++) {
-      totalAlc += alcohols[i];
-    }
-    return totalAlc;
-  }
-
   Map getAlcohols() {
-    double totalAlc = getTotalAlc();
     alcList["total"] = totalAlc;
     alcList["beers"] = totalAlc / 17.75;
     alcList["hard_beers"] = totalAlc / 37.5;
@@ -293,10 +294,9 @@ class _MainState extends State<Main> {
                                                 box.remove("userLoggedIn");
                                                 box.remove("name");
                                                 box.remove("boozes");
-                                                box.remove("alcohols");
-
+                                                box.remove("totalAlc");
+                                                totalAlc = 0;
                                                 boozes.clear();
-                                                alcohols.clear();
 
                                                 leadersColl
                                                     .doc(documents[i]["id"])
