@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -80,6 +81,62 @@ class _MainState extends State<Main> {
     totalAlc += alc;
     box.write("boozes", boozes);
     box.write("totalAlc", totalAlc);
+  }
+
+  void confirmDelete(String docRef) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 2,
+            sigmaY: 2,
+          ),
+          child: AlertDialog(
+            backgroundColor: const Color.fromARGB(255, 12, 12, 12),
+            title: const Text(
+              "Delete user and remove all alcohols?",
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white70,
+              ),
+            ),
+            actions: [
+              TextButton(
+                style: TextButton.styleFrom(foregroundColor: Colors.white),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+                child: const Text(
+                  "No",
+                  style: TextStyle(color: Colors.white38),
+                ),
+              ),
+              TextButton(
+                style: TextButton.styleFrom(foregroundColor: Colors.white),
+                onPressed: () {
+                  setState(() {
+                    Navigator.pop(context, true);
+                    box.remove("userId");
+                    box.remove("userLoggedIn");
+                    box.remove("name");
+                    box.remove("boozes");
+                    box.remove("totalAlc");
+                    totalAlc = 0;
+                    boozes.clear();
+                    leadersColl.doc(docRef).delete();
+                  });
+                },
+                child: const Text(
+                  "Yes",
+                  style: TextStyle(color: Colors.white70),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future<void> setLeaders() async {
@@ -286,30 +343,17 @@ class _MainState extends State<Main> {
                                   ),
                                   title: Text(documents[i]["name"].toString()),
                                   subtitle: Text('${documents[i]["alc"]} ml'),
-                                  trailing:
-                                      (box.read("userId") == documents[i]["id"])
-                                          ? IconButton(
-                                              onPressed: () {
-                                                box.remove("userId");
-                                                box.remove("userLoggedIn");
-                                                box.remove("name");
-                                                box.remove("boozes");
-                                                box.remove("totalAlc");
-                                                totalAlc = 0;
-                                                boozes.clear();
-
-                                                leadersColl
-                                                    .doc(documents[i]["id"])
-                                                    .delete();
-
-                                                setState(() {});
-                                              },
-                                              icon: const Icon(
-                                                Icons.delete,
-                                                color: Colors.white24,
-                                              ),
-                                            )
-                                          : null,
+                                  trailing: (box.read("userId") ==
+                                          documents[i]["id"])
+                                      ? IconButton(
+                                          onPressed: () =>
+                                              confirmDelete(documents[i]["id"]),
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.white24,
+                                          ),
+                                        )
+                                      : null,
                                 ),
                               );
                             },
