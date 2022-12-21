@@ -54,6 +54,7 @@ class _MainState extends State<Main> {
   String userId = box.read("userId") ?? Random().nextInt(1000000).toString();
 
   int rowCount = 4;
+  int pageState = 1;
 
   double totalAlc = box.read("totalAlc") ?? 0;
 
@@ -253,7 +254,7 @@ class _MainState extends State<Main> {
     return Scaffold(
       backgroundColor: Colors.black,
       bottomNavigationBar: BottomAppBar(
-        elevation: 10,
+        elevation: 100,
         color: Colors.black,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -263,37 +264,40 @@ class _MainState extends State<Main> {
             children: <Widget>[
               IconButton(
                 onPressed: () {
+                  pageState = 0;
+                  setState(() {});
                   if (box.read("userLoggedIn") ?? false) setLeaders();
-
                   pageController.animateToPage(0,
                       duration: const Duration(milliseconds: 250),
                       curve: Curves.ease);
                 },
                 icon: const Icon(Icons.leaderboard),
-                color: Colors.white,
+                color: pageState == 0 ? Colors.white : Colors.white30,
               ),
               IconButton(
                 onPressed: () {
+                  pageState = 1;
+                  showMenu();
+                  setState(() {});
                   pageController.animateToPage(1,
                       duration: const Duration(milliseconds: 250),
                       curve: Curves.ease);
-                  showMenu();
-                  setState(() {});
                 },
                 icon: const Icon(Icons.add),
-                color: Colors.white,
+                color: pageState == 1 ? Colors.white : Colors.white30,
               ),
               IconButton(
                 onPressed: () {
+                  pageState = 2;
                   getAlcohols();
                   setState(() {});
                   pageController.animateToPage(2,
                       duration: const Duration(milliseconds: 250),
                       curve: Curves.ease);
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.notes,
-                  color: Colors.white,
+                  color: pageState == 2 ? Colors.white : Colors.white30,
                 ),
               ),
             ],
