@@ -53,7 +53,7 @@ class _MainState extends State<Main> {
 
   String userId = box.read("userId") ?? Random().nextInt(1000000).toString();
 
-  int rowCount = 4;
+  int rowCount = box.read("rowCount") ?? 4;
   int pageState = 1;
 
   double totalAlc = box.read("totalAlc") ?? 0;
@@ -479,6 +479,7 @@ class _MainState extends State<Main> {
                         setState(() {
                           if (rowCount > 1) {
                             rowCount--;
+                            box.write("rowCount", rowCount);
                           }
                         });
                       },
@@ -493,6 +494,7 @@ class _MainState extends State<Main> {
                       onPressed: () {
                         setState(() {
                           rowCount++;
+                          box.write("rowCount", rowCount);
                         });
                       },
                       icon: const Icon(Icons.remove),
