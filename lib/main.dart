@@ -323,7 +323,9 @@ class _MainState extends State<Main> {
                           final List<DocumentSnapshot> documents =
                               snapshot.data!.docs;
                           return RefreshIndicator(
-                            color: Colors.black,
+                            color: const Color.fromARGB(255, 100, 100, 100),
+                            backgroundColor:
+                                const Color.fromARGB(255, 17, 17, 17),
                             onRefresh: () {
                               setState(() {});
                               return Future.delayed(const Duration(seconds: 0));
