@@ -119,13 +119,13 @@ class _CalculationsPageState extends State<CalculationsPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      "${alcList['whiskeys']!.toStringAsFixed(2)} bottles of",
+                      "${alcList['whiskeys']!.toStringAsFixed(2)} glasses of",
                       style: const TextStyle(
                         color: Colors.white,
                       ),
                     ),
                     Image.asset(
-                      "assets/whiskey.png",
+                      "assets/whiskey_glass.png",
                       scale: 3,
                       color: Colors.white,
                     ),
