@@ -73,14 +73,14 @@ class _MainState extends State<Main> {
     super.initState();
   }
 
-  Widget BoozeButton(imageUrl, text, alc) {
+  Widget boozeButton(imageUrl, text, alc) {
     return InkWell(
       onTap: () {
         Clipboard.setData(const ClipboardData());
         HapticFeedback.heavyImpact();
 
         boozes.add({
-          "imageUrl": "assets/${imageUrl}.png",
+          "imageUrl": "assets/$imageUrl.png",
           "scale": 1,
         });
         setState(() {});
@@ -93,7 +93,7 @@ class _MainState extends State<Main> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Image.asset(
-            "assets/${imageUrl}.png",
+            "assets/$imageUrl.png",
             scale: 3,
             color: Colors.black87,
           ),
@@ -184,15 +184,15 @@ class _MainState extends State<Main> {
                           child: GridView.count(
                             crossAxisCount: 3,
                             children: <Widget>[
-                              BoozeButton("bottle_beer", "Bottle beer", 17.75),
-                              BoozeButton("can_beer", "Can beer", 17.75),
-                              BoozeButton("mug_beer", "Mug beer", 26),
-                              BoozeButton("hard_beer", "Hard beer", 37.5),
-                              BoozeButton("vodka", "Vodka", 129),
-                              BoozeButton("wine_glass", "Wine", 18),
-                              BoozeButton("small_shot", "Small shot", 16),
-                              BoozeButton("big_shot", "Big shot", 20),
-                              BoozeButton("whiskey", "Whiskey", 140),
+                              boozeButton("bottle_beer", "Bottle beer", 17.75),
+                              boozeButton("can_beer", "Can beer", 17.75),
+                              boozeButton("mug_beer", "Mug beer", 26),
+                              boozeButton("hard_beer", "Hard beer", 37.5),
+                              boozeButton("vodka", "Vodka", 129),
+                              boozeButton("wine_glass", "Wine", 18),
+                              boozeButton("small_shot", "Small shot", 16),
+                              boozeButton("big_shot", "Big shot", 20),
+                              boozeButton("whiskey", "Whiskey", 140),
                             ],
                           ),
                         )
