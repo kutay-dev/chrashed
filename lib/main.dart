@@ -191,8 +191,9 @@ class _MainState extends State<Main> {
                               boozeButton("big_shot", "Big shot", 20),
                               boozeButton("whiskey_glass", "Whiskey", 23.6),
                               boozeButton("mug_beer", "Mug beer", 26),
+                              boozeButton("margarita", "Margarita", 26.55),
+                              boozeButton("martini", "Martini", 27.25),
                               boozeButton("hard_beer", "Hard beer", 37.5),
-                              boozeButton("vodka", "35cl Vodka", 140),
                             ],
                           ),
                         )
