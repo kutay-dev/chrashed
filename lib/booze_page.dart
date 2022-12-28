@@ -60,7 +60,7 @@ class _BoozePageState extends State<BoozePage> {
           child: IconButton(
             onPressed: () {
               setState(() {
-                if (rowCount > 1) {
+                if (rowCount > 2) {
                   rowCount--;
                   box.write("rowCount", rowCount);
                 }
