@@ -10,6 +10,17 @@ class BoozePage extends StatefulWidget {
 }
 
 class _BoozePageState extends State<BoozePage> {
+  ScrollController scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController(
+      initialScrollOffset: 0.0,
+      keepScrollOffset: true,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -39,6 +50,7 @@ class _BoozePageState extends State<BoozePage> {
                   ],
                 )
               : GridView.count(
+                  controller: scrollController,
                   reverse: true,
                   crossAxisCount: rowCount,
                   children: <Widget>[
@@ -82,6 +94,40 @@ class _BoozePageState extends State<BoozePage> {
             },
             icon: const Icon(Icons.remove),
             color: Colors.grey,
+          ),
+        ),
+        Positioned(
+          top: 50,
+          left: 0,
+          child: IconButton(
+            color: Colors.grey,
+            icon: const Icon(
+              Icons.arrow_upward,
+            ),
+            onPressed: () {
+              scrollController.animateTo(
+                scrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.ease, // NEW
+              );
+            },
+          ),
+        ),
+        Positioned(
+          top: 90,
+          left: 0,
+          child: IconButton(
+            color: Colors.grey,
+            icon: const Icon(
+              Icons.arrow_downward,
+            ),
+            onPressed: () {
+              scrollController.animateTo(
+                scrollController.position.minScrollExtent,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.ease,
+              );
+            },
           ),
         ),
       ],
