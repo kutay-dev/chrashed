@@ -51,6 +51,7 @@ Map getAlcohols() {
   alcList["wines"] = totalAlc / 18;
   alcList["martinis"] = totalAlc / 27.25;
   alcList["margaritas"] = totalAlc / 26.55;
+  alcList["mojitos"] = totalAlc / 23.65;
   alcList["whiskeys"] = totalAlc / 23.6;
   return alcList;
 }
