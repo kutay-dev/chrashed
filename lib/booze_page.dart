@@ -70,6 +70,7 @@ class _BoozePageState extends State<BoozePage> {
           top: 50,
           right: 0,
           child: IconButton(
+            splashRadius: 25,
             onPressed: () {
               setState(() {
                 if (rowCount > 2) {
@@ -86,6 +87,7 @@ class _BoozePageState extends State<BoozePage> {
           top: 90,
           right: 0,
           child: IconButton(
+            splashRadius: 25,
             onPressed: () {
               setState(() {
                 rowCount++;
@@ -100,6 +102,7 @@ class _BoozePageState extends State<BoozePage> {
           top: 50,
           left: 0,
           child: IconButton(
+            splashRadius: 25,
             color: Colors.grey,
             icon: const Icon(
               Icons.arrow_upward,
@@ -117,6 +120,7 @@ class _BoozePageState extends State<BoozePage> {
           top: 90,
           left: 0,
           child: IconButton(
+            splashRadius: 25,
             color: Colors.grey,
             icon: const Icon(
               Icons.arrow_downward,
