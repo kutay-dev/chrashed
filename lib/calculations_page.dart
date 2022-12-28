@@ -55,13 +55,13 @@ class _CalculationsPageState extends State<CalculationsPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      "${alcList['big_shots']!.toStringAsFixed(2)} shots of",
+                      "${alcList['margaritas']!.toStringAsFixed(2)} glasses of",
                       style: const TextStyle(
                         color: Colors.white,
                       ),
                     ),
                     Image.asset(
-                      "assets/big_shot.png",
+                      "assets/margarita.png",
                       scale: 3,
                       color: Colors.white,
                     ),
