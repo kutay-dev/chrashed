@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'main.dart';
 
 class BoozePage extends StatefulWidget {
-  const BoozePage({Key? key, this.god}) : super(key: key);
-  final god;
+  const BoozePage({Key? key, this.showMenuFunc}) : super(key: key);
+  final showMenuFunc;
 
   @override
   State<BoozePage> createState() => _BoozePageState();
@@ -38,7 +38,7 @@ class _BoozePageState extends State<BoozePage> {
                     ),
                     IconButton(
                       onPressed: () {
-                        widget.god();
+                        widget.showMenuFunc();
                         setState(() {});
                       },
                       icon: const Icon(

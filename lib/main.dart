@@ -280,8 +280,8 @@ class _MainState extends State<Main> {
               LeaderboardPage(
                 confirmDelete: confirmDelete,
               ),
-              BoozePage(god: showMenu),
-              CalculationsPage(),
+              BoozePage(showMenuFunc: showMenu),
+              const CalculationsPage(),
             ],
           ),
         ],
