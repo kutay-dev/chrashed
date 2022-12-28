@@ -184,17 +184,18 @@ class _MainState extends State<Main> {
                           child: GridView.count(
                             crossAxisCount: 3,
                             children: <Widget>[
-                              boozeButton("small_shot", "1.5 oz shot", 16),
-                              boozeButton("bottle_beer", "Bottle beer", 17.75),
                               boozeButton("can_beer", "Can beer", 17.75),
-                              boozeButton("wine_glass", "Wine", 18),
+                              boozeButton("bottle_beer", "Bottle beer", 17.75),
+                              boozeButton("mug_beer", "Mug beer", 26),
+                              boozeButton("hard_beer", "7.5% beer", 37.5),
+                              boozeButton("small_shot", "1.5 oz shot", 16),
                               boozeButton("big_shot", "2 oz shot", 20),
+                              boozeButton("champagne", "Champagne", 15),
+                              boozeButton("wine_glass", "Wine", 18),
                               boozeButton("whiskey_glass", "Whiskey", 23.6),
                               boozeButton("mojito", "Mojito", 23.65),
-                              boozeButton("mug_beer", "Mug beer", 26),
                               boozeButton("margarita", "Margarita", 26.55),
                               boozeButton("martini", "Martini", 27.25),
-                              boozeButton("hard_beer", "7.5% beer", 37.5),
                             ],
                           ),
                         )
