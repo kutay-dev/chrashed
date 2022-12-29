@@ -35,13 +35,6 @@ Future<void> setLeaders() async {
   });
 }
 
-void signUp() {
-  box.write("userLoggedIn", true);
-  box.write("name", nameController.text);
-  box.write("userId", userId);
-  setLeaders();
-}
-
 Map getAlcohols() {
   alcList["total"] = totalAlc;
   alcList["beers"] = totalAlc / 17.75;

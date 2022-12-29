@@ -112,7 +112,14 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                 const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () => (nameController.text != "")
-                      ? {signUp(), setState(() {})}
+                      ? {
+                          box.write("userLoggedIn", true),
+                          box.write("name", nameController.text),
+                          box.write("userId", userId),
+                          setLeaders().then((_) {
+                            setState(() {});
+                          }),
+                        }
                       : null,
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
