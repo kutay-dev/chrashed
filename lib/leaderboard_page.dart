@@ -1,7 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'services.dart';
+import 'package:country_picker/country_picker.dart';
 
 class LeaderboardPage extends StatefulWidget {
   final confirmDelete;
@@ -13,6 +16,7 @@ class LeaderboardPage extends StatefulWidget {
 }
 
 class _LeaderboardPageState extends State<LeaderboardPage> {
+  String countryCode = "eu";
   @override
   Widget build(BuildContext context) {
     return (box.read("userLoggedIn") ?? false
@@ -37,33 +41,50 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                     itemCount: documents.length,
                     itemBuilder: (context, i) {
                       return Padding(
-                        padding: const EdgeInsets.fromLTRB(70, 7, 70, 7),
-                        child: ListTile(
-                          visualDensity: const VisualDensity(vertical: -3),
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(width: 2),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          dense: true,
-                          tileColor: (box.read("userId") == documents[i]["id"])
-                              ? Colors.white10
-                              : const Color.fromARGB(255, 12, 12, 12),
-                          leading: Text(
-                            (i + 1).toString(),
-                            style: const TextStyle(color: Colors.white38),
-                          ),
-                          title: Text(documents[i]["name"].toString()),
-                          subtitle: Text('${documents[i]["alc"]} ml'),
-                          trailing: (box.read("userId") == documents[i]["id"])
-                              ? IconButton(
-                                  onPressed: () =>
-                                      widget.confirmDelete(documents[i]["id"]),
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.white24,
-                                  ),
-                                )
-                              : null,
+                        padding: const EdgeInsets.fromLTRB(70, 7, 0, 10),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 270,
+                              height: 65,
+                              child: ListTile(
+                                visualDensity:
+                                    const VisualDensity(vertical: -3),
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(width: 2),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                dense: true,
+                                tileColor:
+                                    (box.read("userId") == documents[i]["id"])
+                                        ? Colors.white10
+                                        : const Color.fromARGB(255, 12, 12, 12),
+                                leading: Text(
+                                  (i + 1).toString(),
+                                  style: const TextStyle(color: Colors.white38),
+                                ),
+                                title: Text(documents[i]["name"].toString()),
+                                subtitle: Text(
+                                    '${double.parse((documents[i]["alc"]).toStringAsFixed(2))} ml'),
+                                trailing: SizedBox(
+                                  width: 25,
+                                  child: Image.asset(
+                                      'icons/flags/png/${documents[i]["countryCode"]}.png',
+                                      package: 'country_icons'),
+                                ),
+                              ),
+                            ),
+                            (box.read("userId") == documents[i]["id"])
+                                ? IconButton(
+                                    onPressed: () => widget
+                                        .confirmDelete(documents[i]["id"]),
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.white24,
+                                    ),
+                                  )
+                                : Text("")
+                          ],
                         ),
                       );
                     },
@@ -91,25 +112,73 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                   style: TextStyle(color: Colors.white54, fontSize: 12),
                 ),
                 const SizedBox(height: 20),
-                SizedBox(
-                  width: 300,
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      labelStyle: TextStyle(color: Colors.white60),
-                      hintText: "username",
-                      hintStyle: TextStyle(color: Colors.white24),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white24),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white38),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 300,
+                      child: TextField(
+                        decoration: const InputDecoration(
+                          labelStyle: TextStyle(color: Colors.white60),
+                          hintText: "username",
+                          hintStyle: TextStyle(color: Colors.white24),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white24),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white38),
+                          ),
+                        ),
+                        controller: nameController,
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
-                    controller: nameController,
-                    style: const TextStyle(color: Colors.white),
-                  ),
+                    SizedBox(
+                      width: 30,
+                      child: Image.asset('icons/flags/png/$countryCode.png',
+                          package: 'country_icons'),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 30),
+                ElevatedButton(
+                  onPressed: () {
+                    showCountryPicker(
+                      countryListTheme: CountryListThemeData(
+                        borderRadius: BorderRadius.all(Radius.zero),
+                        inputDecoration: InputDecoration(
+                          labelStyle: TextStyle(color: Colors.white60),
+                          hintText: "Country",
+                          hintStyle: TextStyle(color: Colors.white24),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white24),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white38),
+                          ),
+                        ),
+                        bottomSheetHeight: 500,
+                        backgroundColor: Color.fromARGB(255, 16, 16, 16),
+                        textStyle: TextStyle(color: Colors.white),
+                      ),
+                      context: context,
+                      showPhoneCode: false,
+                      onSelect: (Country country) {
+                        countryCode = country.countryCode.toLowerCase();
+                        box.write("countryCode", countryCode);
+                        setState(() {});
+                      },
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      ),
+                      backgroundColor: Colors.white),
+                  child: const Text(
+                    "Select Country",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
                 ElevatedButton(
                   onPressed: () => (nameController.text != "")
                       ? {
@@ -130,7 +199,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                     "Sign Up",
                     style: TextStyle(color: Colors.black),
                   ),
-                )
+                ),
               ],
             ),
           ));

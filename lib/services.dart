@@ -32,6 +32,7 @@ Future<void> setLeaders() async {
     'id': userId,
     'name': box.read("name"),
     'alc': totalAlc,
+    'countryCode': box.read("countryCode")
   });
 }
 

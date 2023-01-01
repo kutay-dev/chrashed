@@ -42,6 +42,8 @@ dependencies:
   cloud_firestore: ^3.5.1
   vibration_web: ^1.6.5
   flutter_launcher_icons: ^0.11.0
+  country_picker: ^2.0.19
+  country_icons: ^2.0.2
 
 
 dev_dependencies:
