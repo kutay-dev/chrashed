@@ -47,7 +47,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                           children: [
                             SizedBox(
                               width: size.width / 2,
-                              height: size.height / 17,
+                              height: size.height / 13,
                               child: ListTile(
                                 visualDensity:
                                     const VisualDensity(vertical: -3),
