@@ -26,7 +26,6 @@ class _BoozePageState extends State<BoozePage> {
     return Stack(
       children: <Widget>[
         SizedBox(
-          height: 810,
           width: double.infinity,
           child: (boozes.isEmpty)
               ? Column(
