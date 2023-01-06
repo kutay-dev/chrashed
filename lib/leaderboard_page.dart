@@ -43,6 +43,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(70, 7, 0, 10),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(
                               width: 270,
