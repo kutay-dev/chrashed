@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.chrashed">
+    package="com.vdev.chrashed">
    <application
         android:label="chrashed"
         android:name="${applicationName}"
