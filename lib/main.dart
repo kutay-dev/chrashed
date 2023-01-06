@@ -59,6 +59,7 @@ int rowCount = box.read("rowCount") ?? 4;
 int pageState = 1;
 
 double totalAlc = box.read("totalAlc") ?? 0;
+dynamic size;
 
 Map<String, double> alcList = {};
 
@@ -94,7 +95,7 @@ class _MainState extends State<Main> {
         children: <Widget>[
           Image.asset(
             "assets/$imageUrl.png",
-            scale: 3,
+            width: size.width / 4.5 ?? 2,
             color: Colors.black87,
           ),
           Text(
@@ -213,6 +214,7 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
       bottomNavigationBar: BottomAppBar(
@@ -220,12 +222,13 @@ class _MainState extends State<Main> {
         color: Colors.black,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          height: 55,
+          height: size.height / 13,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               IconButton(
-                splashRadius: 25,
+                iconSize: size.height / 35,
+                splashRadius: size.height / 30,
                 onPressed: () {
                   pageState = 0;
                   setState(() {});
@@ -241,7 +244,8 @@ class _MainState extends State<Main> {
                 color: pageState == 0 ? Colors.white : Colors.white30,
               ),
               IconButton(
-                splashRadius: 25,
+                iconSize: size.height / 30,
+                splashRadius: size.height / 30,
                 onPressed: () {
                   pageState = 1;
                   showMenu();
@@ -254,7 +258,8 @@ class _MainState extends State<Main> {
                 color: pageState == 1 ? Colors.white : Colors.white30,
               ),
               IconButton(
-                splashRadius: 25,
+                iconSize: size.height / 35,
+                splashRadius: size.height / 30,
                 onPressed: () {
                   pageState = 2;
                   getAlcohols();

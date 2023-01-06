@@ -41,13 +41,13 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                     itemCount: documents.length,
                     itemBuilder: (context, i) {
                       return Padding(
-                        padding: const EdgeInsets.fromLTRB(70, 7, 0, 10),
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(
-                              width: 270,
-                              height: 65,
+                              width: size.width / 2,
+                              height: size.height / 17,
                               child: ListTile(
                                 visualDensity:
                                     const VisualDensity(vertical: -3),
@@ -68,7 +68,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                                 subtitle: Text(
                                     '${double.parse((documents[i]["alc"]).toStringAsFixed(2))} ml'),
                                 trailing: SizedBox(
-                                  width: 25,
+                                  width: 20,
                                   child: Image.asset(
                                       'icons/flags/png/${documents[i]["countryCode"]}.png',
                                       package: 'country_icons'),
@@ -114,6 +114,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                 ),
                 const SizedBox(height: 20),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       width: 300,

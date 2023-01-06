@@ -36,6 +36,7 @@ class _BoozePageState extends State<BoozePage> {
                       style: TextStyle(color: Colors.white38),
                     ),
                     IconButton(
+                      iconSize: size.width / 15,
                       onPressed: () {
                         widget.showMenuFunc();
                         setState(() {});
@@ -43,7 +44,6 @@ class _BoozePageState extends State<BoozePage> {
                       icon: const Icon(
                         Icons.add_circle,
                         color: Colors.white,
-                        size: 40,
                       ),
                     )
                   ],

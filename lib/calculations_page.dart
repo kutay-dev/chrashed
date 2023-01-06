@@ -46,7 +46,7 @@ class _CalculationsPageState extends State<CalculationsPage> {
                     ),
                     Image.asset(
                       "assets/small_shot.png",
-                      scale: 3,
+                      width: size.width / 6 ?? 2,
                       color: Colors.white,
                     ),
                   ],
@@ -62,7 +62,7 @@ class _CalculationsPageState extends State<CalculationsPage> {
                     ),
                     Image.asset(
                       "assets/margarita.png",
-                      scale: 3,
+                      width: size.width / 6 ?? 2,
                       color: Colors.white,
                     ),
                   ],
@@ -78,7 +78,7 @@ class _CalculationsPageState extends State<CalculationsPage> {
                     ),
                     Image.asset(
                       "assets/bottle_beer.png",
-                      scale: 3,
+                      width: size.width / 6 ?? 2,
                       color: Colors.white,
                     ),
                   ],
@@ -94,7 +94,7 @@ class _CalculationsPageState extends State<CalculationsPage> {
                     ),
                     Image.asset(
                       "assets/hard_beer.png",
-                      scale: 3,
+                      width: size.width / 6 ?? 2,
                       color: Colors.white,
                     ),
                   ],
@@ -110,7 +110,7 @@ class _CalculationsPageState extends State<CalculationsPage> {
                     ),
                     Image.asset(
                       "assets/wine_glass.png",
-                      scale: 3,
+                      width: size.width / 6 ?? 2,
                       color: Colors.white,
                     ),
                   ],
@@ -126,7 +126,7 @@ class _CalculationsPageState extends State<CalculationsPage> {
                     ),
                     Image.asset(
                       "assets/whiskey_glass.png",
-                      scale: 3,
+                      width: size.width / 6 ?? 2,
                       color: Colors.white,
                     ),
                   ],
