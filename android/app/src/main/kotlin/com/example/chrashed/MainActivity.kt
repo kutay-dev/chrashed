@@ -1,4 +1,4 @@
-package com.example.chrashed
+package com.vdev.chrashed
 
 import io.flutter.embedding.android.FlutterActivity
 
