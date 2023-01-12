@@ -16,6 +16,8 @@ void addBooze(String imageUrl, double scale, double alc) {
   box.write("totalAlc", totalAlc);
 }
 
+String countryCode = "us";
+
 Future<void> setLeaders() async {
   try {
     final DocumentSnapshot snapshot = await leadersColl.doc(userId).get();
@@ -32,7 +34,7 @@ Future<void> setLeaders() async {
     'id': userId,
     'name': box.read("name"),
     'alc': totalAlc,
-    'countryCode': box.read("countryCode")
+    'countryCode': countryCode
   });
 }
 

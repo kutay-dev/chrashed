@@ -16,7 +16,6 @@ class LeaderboardPage extends StatefulWidget {
 }
 
 class _LeaderboardPageState extends State<LeaderboardPage> {
-  String countryCode = "eu";
   @override
   Widget build(BuildContext context) {
     return (box.read("userLoggedIn") ?? false
@@ -134,53 +133,41 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                         style: const TextStyle(color: Colors.white),
                       ),
                     ),
-                    SizedBox(
-                      width: 30,
-                      child: Image.asset('icons/flags/png/$countryCode.png',
+                    IconButton(
+                      splashRadius: 25,
+                      icon: Image.asset('icons/flags/png/$countryCode.png',
                           package: 'country_icons'),
+                      onPressed: () {
+                        showCountryPicker(
+                          countryListTheme: CountryListThemeData(
+                            borderRadius: BorderRadius.all(Radius.zero),
+                            inputDecoration: InputDecoration(
+                              labelStyle: TextStyle(color: Colors.white60),
+                              hintText: "Country",
+                              hintStyle: TextStyle(color: Colors.white24),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white24),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white38),
+                              ),
+                            ),
+                            bottomSheetHeight: 500,
+                            backgroundColor: Color.fromARGB(255, 16, 16, 16),
+                            textStyle: TextStyle(color: Colors.white),
+                          ),
+                          context: context,
+                          showPhoneCode: false,
+                          onSelect: (Country country) {
+                            countryCode = country.countryCode.toLowerCase();
+                            setState(() {});
+                          },
+                        );
+                      },
                     ),
                   ],
                 ),
                 const SizedBox(height: 30),
-                ElevatedButton(
-                  onPressed: () {
-                    showCountryPicker(
-                      countryListTheme: CountryListThemeData(
-                        borderRadius: BorderRadius.all(Radius.zero),
-                        inputDecoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.white60),
-                          hintText: "Country",
-                          hintStyle: TextStyle(color: Colors.white24),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white24),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white38),
-                          ),
-                        ),
-                        bottomSheetHeight: 500,
-                        backgroundColor: Color.fromARGB(255, 16, 16, 16),
-                        textStyle: TextStyle(color: Colors.white),
-                      ),
-                      context: context,
-                      showPhoneCode: false,
-                      onSelect: (Country country) {
-                        countryCode = country.countryCode.toLowerCase();
-                        box.write("countryCode", countryCode);
-                        setState(() {});
-                      },
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
-                      ),
-                      backgroundColor: Colors.white),
-                  child: const Text(
-                    "Select Country",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
                 ElevatedButton(
                   onPressed: () => (nameController.text != "")
                       ? {
