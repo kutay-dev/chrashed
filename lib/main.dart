@@ -77,6 +77,11 @@ class _MainState extends State<Main> {
   Widget boozeButton(imageUrl, text, alc) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(25),
+            ),
+          ),
           alignment: Alignment.center,
           foregroundColor: Colors.grey,
           backgroundColor: Colors.transparent,
@@ -166,48 +171,31 @@ class _MainState extends State<Main> {
 
   void showMenu() {
     showModalBottomSheet(
-      isScrollControlled: true,
       context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25),
+        ),
+      ),
       builder: (BuildContext context) {
-        return Container(
+        return SizedBox(
           height: size.height / 1.4,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(0)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          child: GridView.count(
+            crossAxisCount: 3,
             children: <Widget>[
-              Expanded(
-                child: SizedBox(
-                  child: Container(
-                    decoration: BoxDecoration(color: Colors.grey[200]),
-                    child: Stack(
-                      alignment: const Alignment(0, 0),
-                      children: <Widget>[
-                        Positioned(
-                          child: GridView.count(
-                            crossAxisCount: 3,
-                            children: <Widget>[
-                              boozeButton("can_beer", "Can beer", 17.75),
-                              boozeButton("bottle_beer", "Bottle beer", 17.75),
-                              boozeButton("mug_beer", "Mug beer", 26),
-                              boozeButton("hard_beer", "7.5% beer", 37.5),
-                              boozeButton("small_shot", "1.5 oz shot", 16),
-                              boozeButton("big_shot", "2 oz shot", 20),
-                              boozeButton("champagne", "Champagne", 15),
-                              boozeButton("wine_glass", "Wine", 18),
-                              boozeButton("whiskey_glass", "Whiskey", 23.6),
-                              boozeButton("mojito", "Mojito", 23.65),
-                              boozeButton("margarita", "Margarita", 26.55),
-                              boozeButton("martini", "Martini", 27.25),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              boozeButton("can_beer", "Can beer", 17.75),
+              boozeButton("bottle_beer", "Bottle beer", 17.75),
+              boozeButton("mug_beer", "Mug beer", 26),
+              boozeButton("hard_beer", "7.5% beer", 37.5),
+              boozeButton("small_shot", "1.5 oz shot", 16),
+              boozeButton("big_shot", "2 oz shot", 20),
+              boozeButton("champagne", "Champagne", 15),
+              boozeButton("wine_glass", "Wine", 18),
+              boozeButton("whiskey_glass", "Whiskey", 23.6),
+              boozeButton("mojito", "Mojito", 23.65),
+              boozeButton("margarita", "Margarita", 26.55),
+              boozeButton("martini", "Martini", 27.25),
             ],
           ),
         );
