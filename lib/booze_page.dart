@@ -36,7 +36,7 @@ class _BoozePageState extends State<BoozePage> {
                       style: TextStyle(color: Colors.white38),
                     ),
                     IconButton(
-                      iconSize: size.width / 15,
+                      iconSize: size.width / 10,
                       onPressed: () {
                         widget.showMenuFunc();
                         setState(() {});
@@ -68,69 +68,97 @@ class _BoozePageState extends State<BoozePage> {
         Positioned(
           top: 50,
           right: 0,
-          child: IconButton(
-            splashRadius: 25,
-            onPressed: () {
-              setState(() {
-                if (rowCount > 2) {
-                  rowCount--;
-                  box.write("rowCount", rowCount);
-                }
-              });
-            },
-            icon: const Icon(Icons.add),
-            color: Colors.grey,
+          child: SizedBox(
+            width: 40,
+            height: 40,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(0),
+                  backgroundColor: Colors.transparent),
+              onPressed: () {
+                setState(() {
+                  if (rowCount > 2) {
+                    rowCount--;
+                    box.write("rowCount", rowCount);
+                  }
+                });
+              },
+              child: const Icon(
+                Icons.add,
+              ),
+            ),
           ),
         ),
         Positioned(
-          top: 90,
+          top: 100,
           right: 0,
-          child: IconButton(
-            splashRadius: 25,
-            onPressed: () {
-              setState(() {
-                rowCount++;
-                box.write("rowCount", rowCount);
-              });
-            },
-            icon: const Icon(Icons.remove),
-            color: Colors.grey,
+          child: SizedBox(
+            width: 40,
+            height: 40,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(0),
+                  backgroundColor: Colors.transparent),
+              onPressed: () {
+                setState(() {
+                  rowCount++;
+                  box.write("rowCount", rowCount);
+                });
+              },
+              child: const Icon(
+                Icons.remove,
+              ),
+            ),
           ),
         ),
         Positioned(
           top: 50,
           left: 0,
-          child: IconButton(
-            splashRadius: 25,
-            color: Colors.grey,
-            icon: const Icon(
-              Icons.arrow_upward,
+          child: SizedBox(
+            width: 40,
+            height: 40,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(0),
+                  backgroundColor: Colors.transparent),
+              onPressed: () {
+                scrollController.animateTo(
+                  scrollController.position.maxScrollExtent,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.ease,
+                );
+              },
+              child: const Icon(
+                Icons.arrow_upward,
+              ),
             ),
-            onPressed: () {
-              scrollController.animateTo(
-                scrollController.position.maxScrollExtent,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.ease, // NEW
-              );
-            },
           ),
         ),
         Positioned(
-          top: 90,
+          top: 100,
           left: 0,
-          child: IconButton(
-            splashRadius: 25,
-            color: Colors.grey,
-            icon: const Icon(
-              Icons.arrow_downward,
+          child: SizedBox(
+            width: 40,
+            height: 40,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(0),
+                  backgroundColor: Colors.transparent),
+              onPressed: () {
+                scrollController.animateTo(
+                  scrollController.position.minScrollExtent,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.ease,
+                );
+              },
+              child: const Icon(
+                Icons.arrow_downward,
+              ),
             ),
-            onPressed: () {
-              scrollController.animateTo(
-                scrollController.position.minScrollExtent,
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.ease,
-              );
-            },
           ),
         ),
       ],

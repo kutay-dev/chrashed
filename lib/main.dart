@@ -75,8 +75,23 @@ class _MainState extends State<Main> {
   }
 
   Widget boozeButton(imageUrl, text, alc) {
-    return InkWell(
-      onTap: () {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          alignment: Alignment.center,
+          foregroundColor: Colors.grey,
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent),
+      child: Column(
+        children: [
+          Image.asset(
+            "assets/$imageUrl.png",
+            width: size.width / 4.5 ?? 2,
+            color: Colors.black87,
+          ),
+          Text(text),
+        ],
+      ),
+      onPressed: () {
         Clipboard.setData(const ClipboardData());
         HapticFeedback.heavyImpact();
 
@@ -90,20 +105,6 @@ class _MainState extends State<Main> {
         box.write("boozes", boozes);
         box.write("totalAlc", totalAlc);
       },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Image.asset(
-            "assets/$imageUrl.png",
-            width: size.width / 4.5 ?? 2,
-            color: Colors.black87,
-          ),
-          Text(
-            text,
-            style: const TextStyle(color: Colors.black54),
-          ),
-        ],
-      ),
     );
   }
 
@@ -228,7 +229,7 @@ class _MainState extends State<Main> {
             children: <Widget>[
               IconButton(
                 iconSize: size.height / 35,
-                splashRadius: size.height / 30,
+                splashRadius: 0.1,
                 onPressed: () {
                   pageState = 0;
                   setState(() {});
@@ -245,7 +246,7 @@ class _MainState extends State<Main> {
               ),
               IconButton(
                 iconSize: size.height / 30,
-                splashRadius: size.height / 30,
+                splashRadius: 0.1,
                 onPressed: () {
                   pageState = 1;
                   showMenu();
@@ -259,7 +260,7 @@ class _MainState extends State<Main> {
               ),
               IconButton(
                 iconSize: size.height / 35,
-                splashRadius: size.height / 30,
+                splashRadius: 0.1,
                 onPressed: () {
                   pageState = 2;
                   getAlcohols();

@@ -75,12 +75,22 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                               ),
                             ),
                             (box.read("userId") == documents[i]["id"])
-                                ? IconButton(
-                                    onPressed: () => widget
-                                        .confirmDelete(documents[i]["id"]),
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.white24,
+                                ? SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          alignment: Alignment.center,
+                                          padding: const EdgeInsets.all(0),
+                                          backgroundColor: Colors.transparent),
+                                      onPressed: () {
+                                        widget
+                                            .confirmDelete(documents[i]["id"]);
+                                      },
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: Colors.white24,
+                                      ),
                                     ),
                                   )
                                 : Text("")
@@ -134,7 +144,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                       ),
                     ),
                     IconButton(
-                      splashRadius: 25,
+                      splashRadius: 0.1,
                       icon: Image.asset('icons/flags/png/$countryCode.png',
                           package: 'country_icons'),
                       onPressed: () {
