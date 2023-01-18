@@ -166,9 +166,11 @@ class _MainState extends State<Main> {
 
   void showMenu() {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
         return Container(
+          height: size.height / 1.4,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(0)),
           ),
